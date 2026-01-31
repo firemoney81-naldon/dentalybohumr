@@ -1,23 +1,331 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+ <style>
+    /* 기본 스타일 재설정 */
+    body { font-family: 'Noto Sans KR', sans-serif; line-height: 1.8; margin: 0; padding: 0; background-color: #f7f9fc; color: #333; }
+    header { background: linear-gradient(135deg, #2a6889, #004aad); color: #fff; text-align: center; padding: 40px 15px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    section { max-width: 900px; margin: 25px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    h1, h2 { color: #004aad; font-weight: 700; }
+    h1 { font-size: 2.5em; margin-bottom: 10px; }
+    h2 { font-size: 1.8em; border-bottom: 2px solid #e0eaff; padding-bottom: 10px; margin-top: 30px; }
+    h3 { color: #2a6889; font-size: 1.4em; margin-top: 25px; }
+    p { margin-bottom: 15px; font-size: 1.05em; line-height: 1.7; }
+    ul, ol { padding-left: 25px; margin-bottom: 15px; }
+    li { margin-bottom: 10px; line-height: 1.6; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 1em; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+    th { background: #e0eaff; color: #004aad; font-weight: 700; }
+    td { background: #ffffff; }
+    a { color: #004aad; text-decoration: none; font-weight: 500; }
+    a:hover { text-decoration: underline; color: #005bb5; }
+    strong { color: #2a6889; font-weight: 700; }
+    /* CTA 버튼 스타일 */
+    .btn-cta {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #0070f3;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
+      transition: all 0.3s ease;
+      text-align: center;
+      margin-top: 20px;
+      cursor: pointer;
+      border: none;
+      font-size: 1.1em;
+    }
+    .btn-cta:hover {
+      background: #005bb5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 112, 243, 0.6);
+    }
+    .btn-group { text-align: center; margin-top: 30px; }
+    /* 네비게이션 스타일 */
+    nav { max-width: 900px; margin: 20px auto; background: #fff; border-radius: 12px; padding: 15px 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+    nav li { display: inline-block; }
+    nav a { padding: 10px 15px; border-radius: 20px; background: #f0f4f7; color: #333; transition: background-color 0.2s; }
+    nav a:hover { background: #e0eaff; color: #004aad; text-decoration: none; }
+    /* 폼 스타일 */
+    form { background: #f0f4f7; padding: 30px; border-radius: 10px; margin-top: 20px; border: 1px solid #e0eaff; }
+    form label { display: block; margin-bottom: 8px; font-weight: 700; color: #2a6889; font-size: 1em; }
+    form input[type="text"], form input[type="tel"], form select, form textarea {
+      width: calc(100% - 20px); /* 패딩 고려 */
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 1em;
+    }
+    form select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 12px; }
+    /* 반응형 디자인 */
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      header { padding: 30px 10px; }
+      h1 { font-size: 2em; }
+      h2 { font-size: 1.6em; }
+      nav ul { flex-direction: column; }
+      nav li { display: block; width: 100%; text-align: center; margin-bottom: 5px; }
+      nav a { display: block; }
+      section { padding: 20px; margin: 15px auto; }
+      .btn-cta { width: 100%; font-size: 1em; padding: 12px 0; }
+    }
+    /* 그래프를 위한 기본 스타일 (실제 그래프는 이미지 또는 라이브러리 필요) */
+    .chart-container { background: #fafafa; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #eee; }
+    .chart-title { font-size: 1.2em; font-weight: 700; margin-bottom: 15px; text-align: center; color: #004aad; }
+  </style>
+
+  <!-- Schema.org Article/WebPage 마크업(JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://example.com/레진보험-가입-비교"
+    },
+    "headline": "2026년 레진보험 가입 비교 분석: 치과 레진 치료 비용 및 장단점 정리",
+    "description": "2026년 레진보험 가입을 위한 필수 정보. 레진 치료 건강보험 적용 여부, 평균 비용, 저렴한곳 추천, 치아보험 비교 및 가입 순위 분석까지 전문가가 정리한 모든 것.",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".main-content", ".btn-cta"]
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "프리미엄 보험 정보 제공 서비스"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "프리미엄 보험 정보 제공 서비스",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://example.com/logo.png"
+      }
+    },
+    "datePublished": "2026-01-31",
+    "dateModified": "2026-01-31"
+  }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>레진보험 가입, 2026년 최신 정보로 완벽 비교 분석</h1>
+    <p>치아 레진 치료 비용 부담을 줄여주는 치아보험, 현명하게 선택하는 가이드.</p>
+    <div class="btn-group">
+      <a href="#consultation" class="btn-cta">레진보험 실시간 견적 상담 요청하기</a>
+    </div>
+  </header>
+
+  <nav aria-label="페이지 내 이동">
+    <ul>
+      <li><a href="#coverage">레진 건강보험 적용 기준</a></li>
+      <li><a href="#cost">치료 비용 및 견적 비교</a></li>
+      <li><a href="#comparison">레진보험 상품 비교 분석</a></li>
+      <li><a href="#pros-cons">장단점 및 가입 팁</a></li>
+      <li><a href="#faq">자주 묻는 질문</a></li>
+      <li><a href="#consultation">1:1 맞춤 상담</a></li>
+    </ul>
+  </nav>
+
+  <div class="main-content">
+    <section id="coverage">
+      <h2>레진 치료, 건강보험 적용 여부 및 기준 (2026년)</h2>
+      <p>치아 우식증(충치) 치료에 널리 쓰이는 레진은 심미성과 기능성을 겸비한 재료입니다. 그러나 레진 치료의 모든 경우가 건강보험 혜택을 받는 것은 아닙니다. 레진 치료 비용이 부담스러운 분들을 위해 건강보험 적용 기준과 사보험인 레진보험의 필요성을 정확히 이해해야 합니다.</p>
+      <p><strong>[핵심 키워드: 레진 건강보험, 레진 보험 적용 여부, 레진 치료 횟수, 치과 레진 보험 처리]</strong></p>
+      <p>2026년 현재, 레진 치료의 건강보험 적용은 만 12세 이하의 영구치에 한해 제한적으로 이루어집니다. 2019년 1월부터 만 12세 이하 영구치에 광중합형 복합레진 충전이 건강보험 급여 항목으로 확대 적용되었지만, 성인의 경우 대부분의 레진 치료는 비급여 항목으로 남아있습니다.</p>
+      <h3>레진 건강보험 적용 상세 기준</h3>
+      <ul>
+        <li><strong>적용 대상:</strong> 만 12세 이하 아동의 영구치(어금니 포함).</li>
+        <li><strong>적용 범위:</strong> 충치로 인해 치아가 손상되었을 경우 광중합형 레진 충전.</li>
+        <li><strong>적용 제외:</strong> 미용 목적의 치료, 유치(젖니), 13세 이상 성인의 레진 치료.</li>
+      </ul>
+      <p>이러한 이유로 대부분의 성인들은 레진 치료 시 수십만 원에 달하는 비용을 전액 자비로 부담해야 합니다. 레진 치료 외에도 인레이, 크라운, 임플란트 등 고액의 치료가 필요한 경우가 많아지면서, 레진보험 가입에 대한 관심이 높아지고 있습니다. 레진보험은 비급여 항목인 레진 치료를 보장해주는 사설 치아보험 상품을 의미합니다.</p>
+      <p>치과 치료는 예상치 못한 시기에 발생할 수 있으며, 특히 충치는 치료 시기를 놓치면 더 큰 치료(신경치료, 크라운 등)로 이어지기 쉽습니다. 따라서 치과 치료에 대한 재정적 대비책 마련이 중요합니다.</p>
+    </section>
+
+    <section id="cost">
+      <h2>레진 치료 비용 및 평균 견적 (2026년 기준)</h2>
+      <p>레진 치료의 가격은 치과마다, 그리고 충치의 크기나 위치에 따라 크게 달라집니다. [핵심 키워드: 레진 비용 평균, 레진 가격, 레진 치료 견적, 저렴한곳, 내돈내산 후기]</p>
+      <p>레진 치료는 비급여 항목이기 때문에 치과가 가격을 자율적으로 정할 수 있습니다. 2026년 현재, 일반적으로 치아 1개당 7만 원에서 15만 원 사이의 비용이 발생하며, 충치가 크거나 깊은 경우 20만 원 이상이 되기도 합니다. 이는 건강보험 적용 대상인 만 12세 이하 아동의 경우 본인 부담금이 약 1만 원 내외인 것과 비교하면 상당한 차이입니다.</p>
+      <h3>레진 및 기타 충치 치료 평균 예상 비용 (2026년 비급여 기준)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>치료 유형</th>
+            <th>치아 1개당 평균 비용</th>
+            <th>레진보험 가입 시 장점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>레진 충전 (작은 충치)</td>
+            <td>7만 원 ~ 12만 원</td>
+            <td>부분 또는 전액 보장 가능</td>
+          </tr>
+          <tr>
+            <td>레진 인레이/온레이 (중간 충치)</td>
+            <td>15만 원 ~ 30만 원</td>
+            <td>고액 충치 치료비용 보전</td>
+          </tr>
+          <tr>
+            <td>크라운 치료 (큰 충치/신경치료 후)</td>
+            <td>30만 원 ~ 60만 원</td>
+            <td>치과 치료 비용의 상당 부분 해결</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>참고:</strong> 위 표의 가격은 평균 견적이며, 치과 위치(서울 강남 등), 재료(레진의 종류), 의사의 숙련도 등에 따라 차이가 발생할 수 있습니다. 2026년 물가 상승률을 반영한 예상 금액입니다.</p>
+      <p>많은 사람들이 "레진 치료 저렴한곳"을 찾기 위해 발품을 팔지만, 결국 중요한 것은 보험을 통한 재정적 대비입니다. 레진보험 가입 시, 보험사마다 정해진 한도 내에서 치료 비용을 보장받을 수 있어 실제 체감하는 가격 부담을 크게 낮출 수 있습니다. 특히 여러 개의 충치가 동시에 발견되는 경우, 레진보험의 진정한 가치가 드러납니다.</p>
+      <div class="chart-container">
+        <div class="chart-title">레진 치료 비용 비중 (보험 미가입 vs 보험 가입)</div>
+        <!-- 실제 그래프 대신 텍스트로 대체 -->
+        <p><strong>보험 미가입 시:</strong> 100% 본인 부담 (치료비 전액)<br><strong>보험 가입 시:</strong> 본인 부담금 20~30% (보험금 수령 후)</p>
+      </div>
+    </section>
+
+    <section id="comparison">
+      <h2>레진보험 비교 및 추천 순위: 2026년 주요 상품 분석</h2>
+      <p><strong>[핵심 키워드: 레진보험 순위, 레진보험 비교, 치아보험 추천, 가입, 장단점, 차이점]</strong></p>
+      <p>레진보험은 치아보험 상품에 포함되어 있으며, 보장 내용에 따라 진단형과 비진단형으로 나뉩니다. 치아보험을 처음 알아보는 분들은 "레진보험 추천" 순위를 궁금해하시지만, 본인의 구강 상태와 가입 목적에 따라 최적의 상품이 다릅니다. 가입 전 반드시 여러 상품의 보장 내용을 비교하고 장단점을 확인해야 합니다.</p>
+      <h3>레진보험 상품 유형별 차이점 비교</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>비진단형 (고지형)</th>
+            <th>진단형 (진단 필요형)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>가입 심사</td>
+            <td>간편 고지 (최근 치료 이력만 확인)</td>
+            <td>치과 검진 필요 (구강 상태 정밀 확인)</td>
+          </tr>
+          <tr>
+            <td>장점</td>
+            <td>가입이 쉽고 빠름. 치아 상태가 안 좋은 분도 가입 가능성이 높음.</td>
+            <td>보장 금액이 크고, 면책 기간이 짧거나 없음.</td>
+          </tr>
+          <tr>
+            <td>단점</td>
+            <td>면책 기간 및 감액 기간 존재. 가입 후 바로 보장받기 어려움.</td>
+            <td>치아 상태가 매우 좋아야 가입 가능. 가입 절차 복잡함.</td>
+          </tr>
+          <tr>
+            <td>추천 대상</td>
+            <td>당장 치료 계획은 없지만 미래를 대비하고 싶은 분</td>
+            <td>치과 검진 결과 치아가 건강한 분</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>대부분의 레진보험 가입은 비진단형으로 이루어집니다. 비진단형 상품은 가입 절차가 간단하여 인기가 높지만, 가입 후 90일~1년의 면책 기간과 1년~2년의 감액 기간이 존재합니다. 따라서 가입 후 바로 레진 치료를 받더라도 보장받지 못하거나, 보장금액의 50%만 받을 수 있습니다. 이 점을 반드시 고려해야 합니다.</p>
+      <h3>레진보험 가입 전 고려사항</h3>
+      <ul>
+        <li><strong>보장 금액 확인:</strong> 레진 1개당 얼마를 보장하는지 확인하세요. 보험사마다 보장 한도가 다릅니다.</li>
+        <li><strong>보장 횟수 확인:</strong> 연간 보장 횟수 제한이 있는지 확인해야 합니다. 일부 상품은 레진 치료 횟수에 제한을 둡니다.</li>
+        <li><strong>치료 시점 확인:</strong> 면책 기간과 감액 기간을 고려하여 가입 시점을 신중하게 결정해야 합니다.</li>
+        <li><strong>가입 연령 제한:</strong> 상품마다 가입 가능 연령이 다르므로 확인이 필요합니다.</li>
+      </ul>
+      <p>2026년 현재 레진보험 시장은 다양한 상품이 경쟁하고 있습니다. "내돈내산 후기"를 참고하되, 무조건 저렴한 보험료만을 기준으로 삼는 것은 피해야 합니다. 보험료가 싼 곳은 보장 금액이나 보장 범위가 제한적일 수 있습니다. 충분한 비교를 통해 자신에게 맞는 상품을 선택하는 것이 중요합니다.</p>
+    </section>
+
+    <section id="pros-cons">
+      <h2>레진보험의 장단점 분석 및 현명한 가입 팁</h2>
+      <p><strong>[핵심 키워드: 레진보험 장점, 단점, 장단점, 가입 팁, 치아보험 가입]</strong></p>
+      <p>레진보험은 치과 치료비 부담을 줄여준다는 명확한 장점이 있지만, 단점도 존재하므로 신중한 접근이 필요합니다. 장단점을 명확히 파악하고 가입 팁을 활용하여 손해 없는 보험 가입을 목표로 해야 합니다.</p>
+      <h3>레진보험의 주요 장점</h3>
+      <ul>
+        <li><strong>고액 치료비 부담 완화:</strong> 레진 치료는 물론, 인레이, 크라운, 임플란트 등 고액의 치료비에 대비할 수 있습니다. 특히 여러 치아에 동시다발적으로 문제가 생기는 경우, 레진보험의 보장 혜택이 매우 큽니다.</li>
+        <li><strong>치료 망설임 해소:</strong> 비용 때문에 치료 시기를 놓쳐 더 큰 치료로 이어지는 악순환을 막을 수 있습니다. 보험이 있다면 치과 방문에 대한 심리적 부담이 줄어듭니다.</li>
+        <li><strong>예방적 효과:</strong> 정기적인 치과 검진을 받게 되어 충치를 조기에 발견할 가능성이 높아집니다.</li>
+      </ul>
+      <h3>레진보험의 주요 단점</h3>
+      <ul>
+        <li><strong>면책 기간/감액 기간:</strong> 가입 후 일정 기간 동안 보장받지 못하거나(면책), 보장 금액이 줄어드는(감액) 기간이 있습니다.</li>
+        <li><strong>보장 한도 제한:</strong> 보험 상품에 따라 레진 치료 횟수, 금액에 연간 한도가 정해져 있습니다. 한도를 초과하는 치료는 보장받을 수 없습니다.</li>
+        <li><strong>이미 치료받은 부위 보장 제외:</strong> 가입 전 이미 치료받은 치아는 보장에서 제외되거나, 보험사가 고지를 통해 특정 치아를 보장하지 않을 수 있습니다.</li>
+      </ul>
+      <h3>현명한 레진보험 가입 팁 (2026년 가이드)</h3>
+      <ol>
+        <li><strong>가입 전 치과 검진:</strong> 보험 가입을 고려하고 있다면, 치과에 방문하여 현재 구강 상태를 점검하는 것이 좋습니다. 만약 당장 치료가 필요한 치아가 있다면, 해당 치아는 보험 가입 후에도 보장받지 못할 가능성이 높습니다.</li>
+        <li><strong>비갱신형 상품 고려:</strong> 보험료 인상 없이 장기간 보장받고 싶다면 비갱신형 상품을 고려하세요. 다만 초기 보험료가 갱신형보다 높을 수 있습니다.</li>
+        <li><strong>특약 활용:</strong> 레진 치료 외에도 크라운, 임플란트, 보철 치료를 보장하는 특약을 함께 가입할지 고려해야 합니다. 치아 건강이 좋지 않은 경우, 보철 특약을 함께 가입하는 것이 유리합니다.</li>
+        <li><strong>보험사별 비교:</strong> 한 보험사의 상품만 보고 결정하지 말고, 최소 3~5개 보험사의 상품을 비교해야 합니다. 각 상품의 보장 금액, 보험료, 면책 기간, 보장 범위가 모두 다르기 때문입니다.</li>
+      </ol>
+      <div class="btn-group">
+        <a href="#consultation" class="btn-cta">나에게 맞는 레진보험 비교 견적 받기</a>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>자주 묻는 질문 (FAQ)</h2>
+      <p>레진보험 가입을 희망하는 분들이 가장 많이 묻는 질문들을 모아 정리했습니다.</p>
+      <dl>
+        <dt><strong>Q: 충치 치료 이력이 있어도 레진보험 가입이 가능한가요?</strong></dt>
+        <dd>A: 대부분의 비진단형 치아보험은 가능합니다. 다만, 가입 전 고지사항에 따라 최근 1년 이내 충치로 치료받았거나, 5년 이내 충치로 치료받은 치아에 대한 보장은 제외될 수 있습니다. 자세한 내용은 상품별 고지사항을 확인해야 합니다.</dd>
+
+        <dt><strong>Q: 레진 치료 후 보험금을 청구하려면 어떻게 해야 하나요?</strong></dt>
+        <dd>A: 치과 진료비 영수증, 진료 확인서, 방사선 사진 등을 준비하여 보험사에 청구해야 합니다. 보험금 청구에 필요한 서류는 보험사마다 다소 차이가 있을 수 있습니다. 치료 전에 보험사에 미리 문의하는 것이 좋습니다.</dd>
+
+        <dt><strong>Q: 어린이 레진보험도 있나요?</strong></dt>
+        <dd>A: 네, 어린이 치아보험 상품이 있습니다. 다만 만 12세 이하 영구치는 건강보험 적용이 되므로, 건강보험 적용 범위 외의 레진 치료나 유치 치료, 영구치 교체 시기 등을 고려하여 가입하는 것이 좋습니다.</dd>
+
+        <dt><strong>Q: 레진 인레이와 레진 크라운의 차이점은 무엇인가요?</strong></dt>
+        <dd>A: 레진 인레이는 충치가 크지만 치아의 씹는 면 일부만 손상되었을 때 사용하는 보철물이며, 레진 크라운은 충치가 매우 크거나 신경치료 후 치아 전체를 덮어 씌우는 보철물입니다. 일반적으로 크라운이 인레이보다 고가이며, 레진보험 가입 시 보장 금액도 다릅니다.</dd>
+
+        <dt><strong>Q: 레진보험 저렴한곳을 찾는 팁이 있나요?</strong></dt>
+        <dd>A: 보험료는 나이, 성별, 보장 범위에 따라 달라지므로, 여러 보험사를 비교하여 보험료가 싼 곳을 찾는 것이 중요합니다. 다만 저렴한 보험료가 반드시 좋은 상품을 의미하는 것은 아닙니다. 보장 금액과 보장 기간을 함께 고려해야 합니다.</dd>
+      </dl>
+      <p><strong>참고 사이트:</strong></p>
+      <ul>
+        <li><a href="https://www.nhis.or.kr/" target="_blank">국민건강보험공단:</a> 건강보험 급여 기준에 대한 자세한 정보를 확인할 수 있습니다.</li>
+        <li><a href="https://namu.wiki/w/%EC%B9%98%EC%95%84%EB%B3%B4%ED%97%98" target="_blank">나무위키 - 치아보험:</a> 치아보험의 역사와 작동 원리, 장단점 등에 대한 정보를 얻을 수 있습니다.</li>
+        <li><a href="https://www.fss.or.kr/fss/main/index.do" target="_blank">금융감독원:</a> 보험 상품 관련 분쟁 및 소비자 보호 규정을 확인할 수 있습니다.</li>
+        <li><a href="http://www.koreata.or.kr/" target="_blank">대한치과의사협회:</a> 치과 치료 및 레진 치료에 대한 전문 정보를 얻을 수 있습니다.</li>
+        <li><a href="https://www.law.go.kr/법령/국민건강보험법" target="_blank">국가법령정보센터 - 국민건강보험법:</a> 건강보험 관련 법령을 확인할 수 있습니다.</li>
+      </ul>
+    </section>
+
+    <section id="consultation">
+      <h2>레진보험 맞춤 견적 상담 문의</h2>
+      <p>레진보험 가입을 결정하기 전에 정확한 견적을 받아보세요. 전문 상담사가 고객님의 구강 상태, 나이, 희망 보장 금액에 맞춰 최적의 상품을 비교 분석해드립니다. 지금 바로 문의하고 치과 치료비 부담을 덜어보세요.</p>
+      <form action="/submit-insurance-inquiry" method="POST" style="max-width:600px; margin:auto;">
+        <h3>레진보험 1:1 맞춤 상담 신청</h3>
+        <label for="name">이름<span style="color:red;">*</span></label>
+        <input type="text" id="name" name="name" required placeholder="예: 홍길동" />
+
+        <label for="phone">연락처<span style="color:red;">*</span></label>
+        <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678" pattern="[0-9\-]+" />
+
+        <label for="birthdate">생년월일 (만 나이 계산용)<span style="color:red;">*</span></label>
+        <input type="text" id="birthdate" name="birthdate" required placeholder="예: 1990-01-01" pattern="[0-9\-]+" />
+
+        <label for="diagnosis_type">최근 1년 이내 치과 진료 이력<span style="color:red;">*</span></label>
+        <select id="diagnosis_type" name="diagnosis_type" required>
+          <option value="">선택하세요</option>
+          <option value="none">치과 방문/치료 이력 없음</option>
+          <option value="scaling">스케일링/검진만 있음</option>
+          <option value="cavity_fill">충치 치료 (레진/인레이)</option>
+          <option value="implant">임플란트/크라운 등 보철 치료</option>
+          <option value="other">기타 치료 이력 있음</option>
+        </select>
+
+        <label for="treatment_need">현재 치료가 필요한 치아가 있나요?</label>
+        <select id="treatment_need" name="treatment_need">
+          <option value="no">없음</option>
+          <option value="yes">있음 (상담 시 상세히 알려주세요)</option>
+        </select>
+
+        <label for="message">추가 문의 사항 (희망 보장 금액, 보험료 등)</label>
+        <textarea id="message" name="message" rows="4" placeholder="예: 월 3만원 이하로 레진과 크라운 모두 보장받고 싶습니다."></textarea>
+
+        <button type="submit" class="btn-cta">무료 상담 신청하기</button>
+      </form>
+    </section>
+  </div>
+
+
+  
